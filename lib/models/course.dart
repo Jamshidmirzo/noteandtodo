@@ -1,3 +1,5 @@
+
+
 import 'package:json_annotation/json_annotation.dart';
 part 'course.g.dart';
 
@@ -7,7 +9,8 @@ class Course {
   String title;
   String descrption;
   String imageURL;
-  List lessons;
+  // List<String> lessons;
+  String lessons;
   double price;
   Course(
       {required this.descrption,

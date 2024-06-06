@@ -7,11 +7,11 @@ part of 'course.dart';
 // **************************************************************************
 
 Course _$CourseFromJson(Map<String, dynamic> json) => Course(
-      descrption: json['descrption'] as String,
-      id: json['id'] as String,
-      imageURL: json['imageURL'] as String,
-      lessons: json['lessons'] as List<dynamic>,
-      title: json['title'] as String,
+      descrption: json['descrption'] as String? ?? '',
+      id: json['id'] as String? ?? '',
+      imageURL: json['imageURL'] as String? ?? '',
+      lessons: json['lessons'] as String? ?? '',
+      title: json['title'] as String? ?? '',
       price: (json['price'] as num).toDouble(),
     );
 

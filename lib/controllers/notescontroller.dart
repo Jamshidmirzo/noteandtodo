@@ -18,7 +18,8 @@ class Notescontroller {
   Future<void> editTasks(String id, String title, String date) async {
     try {
       final index = _list.indexWhere((note) => note.id == id);
-      if (index != -1) {
+      if (index != 1) {
+      
         _list[index].title = title;
         _list[index].date = date;
         await notesrepository.editTasks(id, title, date);

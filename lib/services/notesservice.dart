@@ -49,7 +49,7 @@ class Notesservice {
 
   Future<void> isDelete(String id) async {
     Uri url =
-        Uri.parse('https://todo-e79e8-default-rtdb.firebaseio.com/tasks.json');
+        Uri.parse('https://notes-f6b61-default-rtdb.firebaseio.com/notes.json');
     await http.delete(url);
   }
 }

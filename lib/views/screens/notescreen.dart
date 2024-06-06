@@ -1,11 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:bottom/controllers/notescontroller.dart';
 import 'package:bottom/models/note.dart';
 import 'package:bottom/views/widgets/addnotes.dart';
 import 'package:bottom/views/widgets/edittask.dart';
 import 'package:bottom/views/widgets/noteswidget.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 class Notescreen extends StatefulWidget {
   const Notescreen({super.key});
 
@@ -14,7 +13,7 @@ class Notescreen extends StatefulWidget {
 }
 
 class _NotescreenState extends State<Notescreen> {
-  final noteController = Notescontroller();
+  final Notescontroller noteController = Notescontroller();
 
   Future<void> editNote(Note note) async {
     final response = await showDialog<Map<String, String>>(
@@ -23,15 +22,28 @@ class _NotescreenState extends State<Notescreen> {
         return Edittask(note: note);
       },
     );
-    if (response != null) {
-      noteController.editTasks(note.id, response['title']!, response['date']!);
+    if (response != null && response['title'] != null && response['date'] != null) {
+      await noteController.editTasks(note.id, response['title']!, response['date']!);
       setState(() {});
     }
   }
 
   Future<void> deleteNote(Note note) async {
-    noteController.deleteTask(note.id);
+    await noteController.deleteTask(note.id);
     setState(() {});
+  }
+
+  Future<void> addTask() async {
+    final response = await showDialog<Map<String, String>>(
+      context: context,
+      builder: (context) {
+        return Addnotes();
+      },
+    );
+    if (response != null && response['title'] != null && response['date'] != null) {
+      await noteController.addTask(response['title']!, response['date']!);
+      setState(() {});
+    }
   }
 
   @override
@@ -40,18 +52,7 @@ class _NotescreenState extends State<Notescreen> {
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(side: BorderSide()),
         backgroundColor: Colors.red,
-        onPressed: () async {
-          final response = await showDialog<Map<String, String>>(
-            context: context,
-            builder: (context) {
-              return Addnotes();
-            },
-          );
-          if (response != null) {
-            noteController.addTask(response['title']!, response['date']!);
-            setState(() {});
-          }
-        },
+        onPressed: addTask,
         child: const Icon(Icons.add),
       ),
       appBar: AppBar(
