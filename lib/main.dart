@@ -1,4 +1,5 @@
 import 'package:bottom/views/screens/homepage.dart';
+import 'package:bottom/views/screens/smth.dart';
 import 'package:flutter/material.dart';
 
 void main(List<String> args) {
@@ -11,8 +12,6 @@ class Bottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Homepage(),
-    );
+        debugShowCheckedModeBanner: false, home: Homepage());
   }
 }

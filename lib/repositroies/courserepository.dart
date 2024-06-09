@@ -1,5 +1,5 @@
 import 'package:bottom/models/course.dart';
-import 'package:bottom/services/courseservice.dart';
+import 'package:bottom/services/http/courseservice.dart';
 
 class Courserepository {
   final courseservice = Courseservice();

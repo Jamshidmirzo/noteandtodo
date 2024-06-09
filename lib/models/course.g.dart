@@ -7,10 +7,10 @@ part of 'course.dart';
 // **************************************************************************
 
 Course _$CourseFromJson(Map<String, dynamic> json) => Course(
-      descrption: json['descrption'] as String? ?? '',
+      description: json['description'] as String? ?? '',
       id: json['id'] as String? ?? '',
       imageURL: json['imageURL'] as String? ?? '',
-      lessons: json['lessons'] as String? ?? '',
+      lessons: json['lessons'] as List<dynamic>? ?? [],
       title: json['title'] as String? ?? '',
       price: (json['price'] as num).toDouble(),
     );
@@ -18,7 +18,7 @@ Course _$CourseFromJson(Map<String, dynamic> json) => Course(
 Map<String, dynamic> _$CourseToJson(Course instance) => <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
-      'descrption': instance.descrption,
+      'description': instance.description,
       'imageURL': instance.imageURL,
       'lessons': instance.lessons,
       'price': instance.price,

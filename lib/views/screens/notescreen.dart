@@ -5,6 +5,7 @@ import 'package:bottom/models/note.dart';
 import 'package:bottom/views/widgets/addnotes.dart';
 import 'package:bottom/views/widgets/edittask.dart';
 import 'package:bottom/views/widgets/noteswidget.dart';
+
 class Notescreen extends StatefulWidget {
   const Notescreen({super.key});
 
@@ -13,6 +14,12 @@ class Notescreen extends StatefulWidget {
 }
 
 class _NotescreenState extends State<Notescreen> {
+  @override
+  void initState() {
+    noteController.createDatabase();
+    super.initState();
+  }
+
   final Notescontroller noteController = Notescontroller();
 
   Future<void> editNote(Note note) async {
@@ -22,14 +29,17 @@ class _NotescreenState extends State<Notescreen> {
         return Edittask(note: note);
       },
     );
-    if (response != null && response['title'] != null && response['date'] != null) {
-      await noteController.editTasks(note.id, response['title']!, response['date']!);
+    if (response != null &&
+        response['title'] != null &&
+        response['date'] != null) {
+      await noteController.editTasksfromsql(
+          note.id, response['title']!, response['date']!);
       setState(() {});
     }
   }
 
   Future<void> deleteNote(Note note) async {
-    await noteController.deleteTask(note.id);
+    await noteController.deleteTaskfromsql(note.id);
     setState(() {});
   }
 
@@ -40,7 +50,9 @@ class _NotescreenState extends State<Notescreen> {
         return Addnotes();
       },
     );
-    if (response != null && response['title'] != null && response['date'] != null) {
+    if (response != null &&
+        response['title'] != null &&
+        response['date'] != null) {
       await noteController.addTask(response['title']!, response['date']!);
       setState(() {});
     }

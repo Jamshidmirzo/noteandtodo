@@ -1,5 +1,3 @@
-
-
 import 'package:bottom/models/task.dart';
 import 'package:bottom/repositroies/tasksrepositroeis.dart';
 
@@ -9,7 +7,7 @@ class TasksController {
 
   Future<List<Task>> get list async {
     if (_list.isEmpty) {
-      await _fetchTasks();
+      await _fetchTasksfromsql();
     }
 
     return [..._list];
@@ -27,20 +25,39 @@ class TasksController {
     }
   }
 
-  Future<void> editTasks(
-      String id, String title, String date, bool isDone) async {
-    final index = _list.indexWhere((task) {
-      return task.id == id;
-    });
-    _list[index].title = title;
-    _list[index].date = date;
-    _list[index].isDone = isDone;
+  Future<bool> editTasks(
+    String id,
+    String title,
+    String date,
+    bool isDone,
+  ) async {
+    bool isSuccess = await taskRepository.editTasks(id, title, date, isDone);
+    if (isSuccess) {
+      _list = await taskRepository.getTasks();
+      return isSuccess;
+    }
+    return isSuccess;
   }
 
   isDelete(String id) async {
-    _list.removeWhere((task) {
-      return task.id == id;
-    });
+    // _list.removeWhere((task) {
+    //   return task.id == id;
+    // });
     taskRepository.isdelete(id);
+  }
+
+  void createDB() {
+    taskRepository.createDB();
+  }
+
+  Future<void> _fetchTasksfromsql() async {
+    _list = await taskRepository.getTasksfromsql();
+  }
+   Future<void> addTasktosql(String title, String date) async {
+    bool isDone = false;
+    final newTask = await taskRepository.addTasktosql(title, date, isDone);
+    if (newTask != null) {
+      _list.add(newTask);
+    }
   }
 }

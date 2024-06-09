@@ -6,7 +6,6 @@ import 'package:bottom/views/widgets/taskswidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class Todoscreen extends StatefulWidget {
   const Todoscreen({super.key});
 
@@ -15,6 +14,12 @@ class Todoscreen extends StatefulWidget {
 }
 
 class _TodoscreenState extends State<Todoscreen> {
+  @override
+  void initState() {
+    taskController.createDB();
+    super.initState();
+  }
+
   final TasksController taskController = TasksController();
 
   Future<void> addTask() async {
@@ -30,7 +35,7 @@ class _TodoscreenState extends State<Todoscreen> {
       final String? date = response['date'];
 
       if (task != null && date != null) {
-        await taskController.addTask(task, date);
+        await taskController.addTasktosql(task, date);
         setState(() {});
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -48,9 +53,11 @@ class _TodoscreenState extends State<Todoscreen> {
       },
     );
     if (response != null) {
-      await taskController.editTasks(
+      bool isSuccess = await taskController.editTasks(
           task.id, response['title'], response['date'], response['isDone']);
-      setState(() {});
+      if (isSuccess) {
+        setState(() {});
+      }
     }
   }
 
@@ -84,7 +91,6 @@ class _TodoscreenState extends State<Todoscreen> {
           style: GoogleFonts.abel(fontWeight: FontWeight.bold, fontSize: 23),
         ),
       ),
-      
       body: FutureBuilder<List<Task>>(
         future: taskController.list,
         builder: (context, snapshot) {

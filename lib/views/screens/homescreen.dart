@@ -1,6 +1,7 @@
 import 'package:bottom/controllers/coursescontroller.dart';
 import 'package:bottom/views/screens/notescreen.dart';
 import 'package:bottom/views/screens/todoscreen.dart';
+import 'package:bottom/views/widgets/courseswidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -109,19 +110,7 @@ class Homescreen extends StatelessWidget {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         final course = snapshot.data![index];
-                        return ZoomTapAnimation(
-                          child: Card(
-                              child: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage(course.imageURL),
-                                    fit: BoxFit.cover)),
-                            child: ListTile(
-                              title: Text(course.title),
-                              subtitle: Text(course.descrption),
-                            ),
-                          )),
-                        );
+                        return Courseswidget(course: course);
                       },
                     );
                   },

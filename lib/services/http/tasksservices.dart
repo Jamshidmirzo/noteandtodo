@@ -4,6 +4,7 @@ import 'package:bottom/models/task.dart';
 import 'package:http/http.dart' as http;
 
 class Tasksservices {
+  final String baseUrl = "https://todo-e79e8-default-rtdb.firebaseio.com/tasks";
   Future<List<Task>> getTasks() async {
     Uri url =
         Uri.parse('https://todo-e79e8-default-rtdb.firebaseio.com/tasks.json');
@@ -37,22 +38,30 @@ class Tasksservices {
     return null;
   }
 
-  Future<void> editTasks(
+  Future<bool> editTasks(
       String id, String title, String date, bool isDone) async {
-    Uri url =
-        Uri.parse('https://todo-e79e8-default-rtdb.firebaseio.com/tasks.json');
+    print("Bu $id");
+    Uri url = Uri.parse(
+        'https://todo-e79e8-default-rtdb.firebaseio.com/tasks/$id.json');
     Map<String, dynamic> taskData = {
       'title': title,
       'date': date,
-      'isDone': isDone,
+      'isDone': false,
       'id': id
     };
-    await http.patch(url, body: taskData);
+    final response = await http.patch(url, body: jsonEncode(taskData));
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
   }
 
-  Future<void> isDelete(String id) async {
-    Uri url =
-        Uri.parse('https://todo-e79e8-default-rtdb.firebaseio.com/tasks.json');
-    await http.delete(url);
+  Future<bool> isDelete(String id) async {
+    Uri url = Uri.parse('$baseUrl/$id.json');
+    final response = await http.delete(url);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return true;
+    }
+    return false;
   }
 }
