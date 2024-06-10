@@ -14,7 +14,7 @@ class Courseservice {
       value['id'] = key;
       loadedcourses.add(Course.fromJson(value));
     });
-    print(loadedcourses[0].lessons[0]['title']);
+   
     return loadedcourses;
   }
 }

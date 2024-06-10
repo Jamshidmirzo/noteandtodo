@@ -1,6 +1,6 @@
 import 'package:bottom/controllers/coursescontroller.dart';
 import 'package:bottom/views/screens/notescreen.dart';
-import 'package:bottom/views/screens/todoscreen.dart';
+
 import 'package:bottom/views/widgets/courseswidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,11 +24,7 @@ class Homescreen extends StatelessWidget {
                 children: [
                   ZoomTapAnimation(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return Todoscreen();
-                        },
-                      ));
+                      Navigator.pushNamed(context, '/todo');
                     },
                     child: Container(
                       width: 150,
@@ -46,14 +42,15 @@ class Homescreen extends StatelessWidget {
                   ),
                   ZoomTapAnimation(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (ctx) {
-                            return Notescreen();
-                          },
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (ctx) {
+                      //       return Notescreen();
+                      //     },
+                      //   ),
+                      // );
+                      Navigator.pushNamed(context, '/note');
                     },
                     child: Container(
                       width: 150,

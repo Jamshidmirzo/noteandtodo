@@ -8,7 +8,7 @@ class Taskswidget extends StatefulWidget {
   final task;
   final VoidCallback isEdit;
   final VoidCallback isDelete;
-  Taskswidget(
+  const Taskswidget(
       {super.key,
       required this.task,
       required this.isEdit,
