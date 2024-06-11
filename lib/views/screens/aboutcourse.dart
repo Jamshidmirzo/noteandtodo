@@ -1,3 +1,5 @@
+import 'package:bottom/controllers/coursescontroller.dart';
+import 'package:bottom/views/screens/profilepage.dart';
 import 'package:bottom/views/widgets/aboutcoursewidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +14,13 @@ class Aboutcourse extends StatefulWidget {
 }
 
 class _AboutcourseState extends State<Aboutcourse> {
+  addCourse() async {
+    await coursecontroller.addCourse(
+        widget.course.title, widget.course.imageURL);
+    setState(() {});
+  }
+
+  final coursecontroller = Coursescontroller();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,11 +58,26 @@ class _AboutcourseState extends State<Aboutcourse> {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              'Price:\$${widget.course.price.toString()}',
-              style:
-                  GoogleFonts.abel(fontSize: 23, fontWeight: FontWeight.w600),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Price:\$${widget.course.price.toString()}',
+                  style: GoogleFonts.abel(
+                      fontSize: 23, fontWeight: FontWeight.w600),
+                ),
+                ZoomTapAnimation(
+                    onTap: () {
+                      addCourse();
+                    },
+                    child: const Icon(
+                      Icons.monetization_on,
+                      size: 50,
+                      color: Colors.red,
+                    ))
+              ],
             ),
+
             Text(
               "Our Lessons",
               style: GoogleFonts.abel(

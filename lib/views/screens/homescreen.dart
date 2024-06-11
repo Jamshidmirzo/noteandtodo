@@ -1,9 +1,11 @@
 import 'package:bottom/controllers/coursescontroller.dart';
+import 'package:bottom/views/screens/loginpage.dart';
 import 'package:bottom/views/screens/notescreen.dart';
 
 import 'package:bottom/views/widgets/courseswidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class Homescreen extends StatelessWidget {
@@ -14,6 +16,29 @@ class Homescreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          Container(
+            margin: EdgeInsets.all(20),
+            child: ZoomTapAnimation(
+              onTap: () async {
+                SharedPreferences sharedpref =
+                    await SharedPreferences.getInstance();
+                sharedpref.remove('userData');
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return Loginpage();
+                    },
+                  ),
+                );
+              },
+              child: Icon(Icons.logout),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(30.0),

@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:bottom/models/user.dart';
 import 'package:bottom/services/http/authhttpservice.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Authcontroller {
@@ -61,11 +61,12 @@ class Authcontroller {
         jsonEncode(user!.toMap()),
       );
     } catch (e) {
+      print(e);
       String message = e.toString();
       if (message.contains("EMAIL_EXISTS")) {
-        message = "Bu email mavjud";
+        message = "Bu email bor";
       } else if (message.contains("WEAK_PASSWORD")) {
-        message = "Parol juda qisqa!";
+        message = "Parol juda onson!";
       }
 
       throw (message);
@@ -75,7 +76,7 @@ class Authcontroller {
   Future<bool> checkLogin() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? userData = sharedPreferences.getString("userData");
-   
+
     if (userData == null) {
       return false;
     }

@@ -1,3 +1,4 @@
+
 import 'package:bottom/views/screens/videoscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,9 +13,10 @@ class Aboutcoursewidget extends StatefulWidget {
 }
 
 class _AboutcoursewidgetState extends State<Aboutcoursewidget> {
+
   ontap() {
     Navigator.push(context, MaterialPageRoute(builder: (ctx) {
-      return Videoscreen(lessons:widget.lessons);
+      return Videoscreen(lessons: widget.lessons);
     }));
   }
 

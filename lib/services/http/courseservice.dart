@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:bottom/models/course.dart';
+import 'package:bottom/models/newcourse.dart';
+import 'package:bottom/models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Courseservice {
   Future<List<Course>> getCourse() async {
@@ -14,7 +17,52 @@ class Courseservice {
       value['id'] = key;
       loadedcourses.add(Course.fromJson(value));
     });
-   
+
+    return loadedcourses;
+  }
+
+  Future<void> addCourseToNew(String name, String imageURL) async {
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+
+    final userData = sharedPref.getString('userData');
+    final user = User.fromMap(jsonDecode(userData!));
+
+    Uri url = Uri.parse(
+        'https://coursess-c409a-default-rtdb.firebaseio.com/courser.json');
+
+    final Map<String, dynamic> courseData = {
+      'title': name,
+      'imageURL': imageURL,
+      'creatorID': user.id,
+    };
+
+    final response = await http.post(
+      url,
+      body: jsonEncode(courseData),
+    );
+
+    print(response.body);
+  }
+
+  Future<List<Newcourse>> getCoursenew() async {
+    Uri url = Uri.parse(
+        'https://coursess-c409a-default-rtdb.firebaseio.com/courser.json');
+    final responce = await http.get(url);
+    final data = jsonDecode(responce.body);
+    List<Newcourse> loadedcourses = [];
+    data.forEach(
+      (key, value) {
+        loadedcourses.add(
+          Newcourse(
+            id: key,
+            title: value['title'],
+            imageURL: value['imageURL'],
+            creatorID: value['creatorID'],
+          ),
+        );
+      },
+    );
+
     return loadedcourses;
   }
 }
