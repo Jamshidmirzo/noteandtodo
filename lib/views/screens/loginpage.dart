@@ -3,7 +3,6 @@ import 'package:bottom/views/screens/homepage.dart';
 import 'package:bottom/views/screens/registerpage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -18,13 +17,14 @@ class _LoginpageState extends State<Loginpage> {
   final passwordcontroller = TextEditingController();
   final formkey = GlobalKey<FormState>();
   bool isLoading = false;
-  submit() {
+  submit() async {
     if (formkey.currentState!.validate()) {
       setState(() {
         isLoading = true;
       });
       try {
-        authcontroller.login(emailcontroller.text, passwordcontroller.text);
+        await authcontroller.login(
+            emailcontroller.text, passwordcontroller.text);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

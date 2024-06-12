@@ -1,22 +1,40 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:bottom/controllers/coursescontroller.dart';
 import 'package:bottom/views/screens/loginpage.dart';
-import 'package:bottom/views/screens/notescreen.dart';
-
 import 'package:bottom/views/widgets/courseswidget.dart';
+import 'package:bottom/views/widgets/searchviewdelegate.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
-class Homescreen extends StatelessWidget {
+class Homescreen extends StatefulWidget {
   Homescreen({Key? key}) : super(key: key);
 
+  @override
+  State<Homescreen> createState() => _HomescreenState();
+}
+
+class _HomescreenState extends State<Homescreen> {
   final Coursescontroller coursecontroller = Coursescontroller();
+
+  List<String> filtereddata = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        leading: IconButton(
+            onPressed: () async {
+              String? result = await showSearch(
+                context: context,
+                delegate: SearchViewDelegate(coursecontroller.getCourse()),
+              );
+              if (result != null) filtereddata.add(result);
+              setState(() {});
+            },
+            icon: const Icon(Icons.search)),
         actions: [
           Container(
             margin: EdgeInsets.all(20),
@@ -37,6 +55,16 @@ class Homescreen extends StatelessWidget {
               child: Icon(Icons.logout),
             ),
           ),
+          IconButton(
+              onPressed: () async {
+                final themeode = await AdaptiveTheme.getThemeMode();
+                if (themeode == AdaptiveThemeMode.dark) {
+                  AdaptiveTheme.of(context).setLight();
+                } else {
+                  AdaptiveTheme.of(context).setDark();
+                }
+              },
+              icon: const Icon(Icons.dark_mode))
         ],
       ),
       body: SafeArea(

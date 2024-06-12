@@ -45,8 +45,13 @@ class Courseservice {
   }
 
   Future<List<Newcourse>> getCoursenew() async {
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+
+    final userData = sharedPref.getString('userData');
+    final user = User.fromMap(jsonDecode(userData!));
+    final id = user.id;
     Uri url = Uri.parse(
-        'https://coursess-c409a-default-rtdb.firebaseio.com/courser.json');
+        'https://coursess-c409a-default-rtdb.firebaseio.com/courser.json?orderBy="creatorID"&equalTo="$id"');
     final responce = await http.get(url);
     final data = jsonDecode(responce.body);
     List<Newcourse> loadedcourses = [];
@@ -64,5 +69,26 @@ class Courseservice {
     );
 
     return loadedcourses;
+  }
+
+  Future<void> fetchCoursesByCreatorID() async {
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+
+    final userData = sharedPref.getString('userData');
+    final user = User.fromMap(jsonDecode(userData!));
+    final id = user.id;
+    Uri url = Uri.parse(
+        'https://coursess-c409a-default-rtdb.firebaseio.com/courser.json?orderBy="creatorID"&equalTo="$id"');
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> courses = jsonDecode(response.body);
+      courses.forEach((key, value) {
+        print('Course ID: $key, Data: $value');
+      });
+    } else {
+      print('Failed to load courses: ${response.statusCode}');
+    }
   }
 }

@@ -15,7 +15,7 @@ class _ProfilepageState extends State<Profilepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amber,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(
           'List of my Courses',
           style: GoogleFonts.akayaTelivigala(),

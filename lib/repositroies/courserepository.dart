@@ -15,4 +15,8 @@ class Courserepository {
   Future<void> addCourse(String name, String imageURL) {
     return courseservice.addCourseToNew(name, imageURL);
   }
+
+  Future<void> fetbyid() async {
+    return courseservice.fetchCoursesByCreatorID();
+  }
 }

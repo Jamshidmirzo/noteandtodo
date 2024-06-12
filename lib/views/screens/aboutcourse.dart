@@ -17,6 +17,7 @@ class _AboutcourseState extends State<Aboutcourse> {
   addCourse() async {
     await coursecontroller.addCourse(
         widget.course.title, widget.course.imageURL);
+        
     setState(() {});
   }
 

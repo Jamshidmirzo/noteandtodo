@@ -1,40 +1,53 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:bottom/controllers/authcontroller.dart';
 import 'package:bottom/views/screens/homepage.dart';
 import 'package:bottom/views/screens/loginpage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(Bottom());
+  runApp(BottomApp());
 }
 
-class Bottom extends StatefulWidget {
-  Bottom({super.key});
+class BottomApp extends StatefulWidget {
+  BottomApp({super.key});
 
   @override
-  State<Bottom> createState() => _BottomState();
+  State<BottomApp> createState() => _BottomAppState();
 }
 
-class _BottomState extends State<Bottom> {
-  final authcontroller = Authcontroller();
-
-  bool isLogged = false;
+class _BottomAppState extends State<BottomApp> {
+  final Authcontroller _authController = Authcontroller();
+  bool _isLogged = false;
 
   @override
   void initState() {
-    authcontroller.checkLogin().then((value) {
+    super.initState();
+    _authController.checkLogin().then((value) {
       setState(() {
-        isLogged = value;
+        _isLogged = value;
       });
     });
-
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: isLogged ? Homepage() : Loginpage(),
-      debugShowCheckedModeBanner: false,
+    return AdaptiveTheme(
+      light: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+      ),
+      dark: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          brightness: Brightness.dark,
+        ),
+      ),
+      initial: AdaptiveThemeMode.dark,
+      builder: (light, dark) => MaterialApp(
+        theme: light,
+        darkTheme: dark,
+        home: _isLogged ? Homepage() : Loginpage(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

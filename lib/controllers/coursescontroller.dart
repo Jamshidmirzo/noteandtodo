@@ -19,4 +19,8 @@ class Coursescontroller {
   Future<void> addCourse(String name, String imageURL) {
     return courserepository.addCourse(name, imageURL);
   }
+
+  Future<void> fetchbyID() {
+    return courserepository.fetbyid();
+  }
 }
