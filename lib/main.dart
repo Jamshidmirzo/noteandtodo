@@ -3,6 +3,7 @@ import 'package:bottom/controllers/authcontroller.dart';
 import 'package:bottom/views/screens/homepage.dart';
 import 'package:bottom/views/screens/loginpage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(BottomApp());
@@ -43,6 +44,15 @@ class _BottomAppState extends State<BottomApp> {
       ),
       initial: AdaptiveThemeMode.dark,
       builder: (light, dark) => MaterialApp(
+        localizationsDelegates: [
+          GlobalCupertinoLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        supportedLocales: [
+          Locale('uz'),
+          Locale('en'),
+        ],
         theme: light,
         darkTheme: dark,
         home: _isLogged ? Homepage() : Loginpage(),
